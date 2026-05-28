@@ -8,12 +8,11 @@ def xor_with_key(data: bytes, key: bytes) -> bytes:
 
 
 def main():
-    if len(sys.argv) != 3:
-        print("Usage: python xor_encrypt.py <hex_key> <filename>")
+    if len(sys.argv) != 4:
+        print("Usage: python xor_encrypt.py <hex_key> <filename> <outfile>")
         sys.exit(1)
 
     hex_key, filename = sys.argv[1], sys.argv[2]
-    os.system("sudo chown ubuntu " + filename)
 
     try:
         key = bytes.fromhex(hex_key)
@@ -29,9 +28,6 @@ def main():
         data = f.read()
 
     encrypted = xor_with_key(data, key)
-
-    os.makedirs("pub", exist_ok=True)
-    out_path = os.path.join("pub", os.path.basename(filename))
 
     with open(out_path, "wb") as f:
         f.write(encrypted)
